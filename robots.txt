@@ -1,0 +1,3 @@
+# GhostMail by Suraj Kumar
+User-agent: *
+Allow: /

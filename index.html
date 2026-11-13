@@ -1,0 +1,1202 @@
+<!doctype html>
+<!----------------------------------
+    GhostMail — Cyberpunk Disposable Email
+    Author: Suraj Kumar
+    Tech: Vanilla JS + Cyberpunk Glassmorphism
+---------------------------------->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta
+    content="default-src 'self' https://api.guerrillamail.com https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com ws://127.0.0.1:* wss://127.0.0.1:*; connect-src 'self' https://api.guerrillamail.com ws://127.0.0.1:* wss://127.0.0.1:*; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval'; font-src https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:;" />
+  <title>TempX — Instant Temp Mail &amp; Virtual SMS | EarnifyX Automation</title>
+  <meta name="description"
+    content="TempX by EarnifyX Automation — Generate instant, stealth disposable email addresses &amp; virtual phone numbers for OTP verification. No sign-up required." />
+  <meta name="keywords"
+    content="tempx, earnifyx, temp mail, temporary email, disposable email, burner email, virtual sms, otp number, guerrilla mail" />
+  <meta name="author" content="EarnifyX Automation" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="TempX by EarnifyX" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:title" content="TempX — Instant Temp Mail &amp; Virtual SMS" />
+  <meta property="og:description"
+    content="Instant stealth disposable email addresses &amp; virtual SMS numbers for OTP verification. By EarnifyX Automation." />
+  <meta property="og:image" content="images/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TempX — Instant Temp Mail &amp; Virtual SMS" />
+  <meta name="twitter:description"
+    content="Instant stealth disposable email addresses &amp; virtual SMS numbers for OTP verification. By EarnifyX Automation." />
+  <meta name="twitter:image" content="images/og-image.png" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "TempX",
+            "alternateName": "TempX by EarnifyX — Disposable Email & Virtual Numbers",
+            "inLanguage": ["en", "tr"]
+          },
+          {
+            "@type": "WebApplication",
+            "name": "TempX",
+            "description": "Next-Gen stealth disposable emails and virtual phone numbers for OTPs. Powered by EarnifyX Automation.",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires JavaScript",
+            "image": "images/og-image.png",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "author": { "@type": "Organization", "name": "EarnifyX Automation" }
+          }
+        ]
+      }
+    </script>
+  <meta name="theme-color" content="#07080F" />
+  <link rel="icon" href="images/app-icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="images/temp-mail-icon.png" type="image/png" sizes="64x64" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="images/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <!-- Apply saved theme before first paint (prevents flash) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+      document.documentElement.classList.add("js");
+    })();
+  </script>
+
+  <!-- Google Fonts: Geist, Geist Mono, Instrument Serif -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
+</head>
+
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Ambient background: glow orbs, hairline grid, film grain -->
+  <div class="ambient" aria-hidden="true">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+    <div class="grid-lines"></div>
+  </div>
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Floating island navigation -->
+  <header class="nav-wrap" role="banner">
+    <nav class="app-bar" aria-label="Primary">
+      <a class="app-bar-logo" href="#main-content" aria-label="TempX home">
+        <span class="logo-mark" aria-hidden="true" style="color: #00f0ff;">
+          <i class="fa-solid fa-bolt"></i>
+        </span>
+        <span class="logo-word">Temp<span style="color: #00f0ff;">X</span></span>
+        <span class="app-bar-version cyber-badge"
+          style="background: rgba(0, 240, 255, 0.12); color: #00f0ff; border-color: rgba(0, 240, 255, 0.35); font-weight: 700; letter-spacing: 1px;">EARNIFYX</span>
+      </a>
+
+      <!-- App Mode Switcher: Mail vs SMS -->
+      <div class="mode-switcher-pill">
+        <button id="mode-tab-mail" class="mode-btn active" onclick="switchAppMode('mail')"
+          aria-label="Switch to Temp Mail">
+          <i class="fa-solid fa-envelope"></i>
+          <span>Temp Mail</span>
+        </button>
+        <button id="mode-tab-sms" class="mode-btn" onclick="switchAppMode('sms')" aria-label="Switch to Virtual SMS">
+          <i class="fa-solid fa-mobile-screen"></i>
+          <span>Virtual SMS</span>
+          <span class="sms-new-tag">HOT</span>
+        </button>
+      </div>
+
+      <span class="app-bar-separator" aria-hidden="true"></span>
+
+      <div class="status-pill" role="status">
+        <span id="status-led" class="status-led offline"></span>
+        <span id="status-text" data-i18n="status_offline">Offline</span>
+      </div>
+
+      <div class="app-bar-right">
+        <!-- Live Currency Switcher -->
+        <div class="currency-switch-pill" title="Switch Display Currency (Live)">
+          <i class="fa-solid fa-coins"></i>
+          <select id="app-currency-select" class="currency-select" onchange="changeAppCurrency(this.value)"
+            aria-label="Currency Selector">
+            <option value="INR" selected>₹ INR</option>
+            <option value="USD">$ USD</option>
+            <option value="USDT">₮ USDT</option>
+          </select>
+        </div>
+
+        <!-- Wallet Balance Pill -->
+        <div class="wallet-pill" onclick="openWalletModal()" title="TempX Wallet Balance &amp; Recharge">
+          <i class="fa-solid fa-wallet"></i>
+          <span class="wallet-currency" id="nav-wallet-currency">₹</span>
+          <span id="wallet-balance-val">50.00</span>
+          <span class="wallet-add-btn" aria-label="Add funds"><i class="fa-solid fa-plus"></i></span>
+        </div>
+
+        <button class="cmd-trigger" onclick="showCommandPalette()" aria-label="Command palette">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span class="cmd-trigger-text" data-i18n="cmd_hint">Command Palette</span>
+          <kbd>⌘K</kbd>
+        </button>
+
+        <button id="lang-toggle" class="lang-switch-btn" aria-label="Switch Language" data-tooltip="Türkçe">
+          <span class="lang-icon">🇺🇸</span>
+          <span class="lang-text">EN</span>
+        </button>
+
+        <label class="theme-toggle" data-tooltip="Theme">
+          <input type="checkbox" id="theme-toggle" aria-label="Toggle dark mode" />
+          <span class="theme-toggle-track" aria-hidden="true">
+            <i class="fa-solid fa-sun"></i>
+            <i class="fa-solid fa-moon"></i>
+            <span class="theme-toggle-knob"></span>
+          </span>
+        </label>
+
+        <!-- Auth Trigger / User Menu -->
+        <div id="auth-header-slot" class="auth-slot">
+          <button id="auth-open-btn" class="auth-trigger-btn" onclick="openAuthModal('login')"
+            aria-label="Login or Register">
+            <i class="fa-solid fa-user-ninja"></i>
+            <span class="auth-btn-text">Sign In</span>
+          </button>
+
+          <div id="user-profile-menu" class="user-menu" style="display: none;">
+            <div class="user-pill" onclick="toggleUserDropdown()">
+              <span class="user-avatar"><i class="fa-solid fa-ghost"></i></span>
+              <span id="user-display-name" class="user-name">Agent</span>
+              <span class="user-tier-badge">PRO</span>
+              <i class="fa-solid fa-chevron-down user-caret"></i>
+            </div>
+            <div id="user-dropdown-panel" class="user-dropdown" style="display: none;">
+              <div class="user-dropdown-header">
+                <span id="dropdown-username" class="dropdown-username">@agent</span>
+                <span class="dropdown-role"><i class="fa-solid fa-shield-halved"></i> Stealth Unlimited</span>
+              </div>
+              <div class="user-dropdown-divider"></div>
+              <div class="user-dropdown-perk">
+                <i class="fa-solid fa-infinity"></i> Unlimited Mailboxes Active
+              </div>
+              <div class="user-dropdown-divider"></div>
+              <button class="dropdown-item text-danger" onclick="logoutUser()">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="app-container">
+    <main id="main-content" class="main-content" role="main" tabindex="-1">
+      <div id="mail-workspace">
+        <!-- Hero -->
+        <section class="hero reveal" aria-labelledby="hero-title">
+          <div class="hero-badge-pill">
+            <span class="badge-dot"></span>
+            <span>POWERED BY EARNIFYX AUTOMATION</span>
+            <span class="badge-tag">CYBER v2.5</span>
+          </div>
+          <h1 id="hero-title" class="hero-title" data-i18n="hero_title">
+            Instant Disposable Inboxes, <em
+              style="background: linear-gradient(135deg, #00f0ff 0%, #d946ef 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Zero
+              Traces.</em>
+          </h1>
+          <p class="hero-sub" data-i18n="hero_sub">
+            Ultra-fast temporary emails &amp; virtual phone numbers on demand. Bypass OTPs, block spam, and automate
+            signups with complete stealth.
+          </p>
+          <div class="hero-trust-bar">
+            <span class="trust-item"><i class="fa-solid fa-bolt" style="color: #00f0ff;"></i> Instant 0.2s
+              Generation</span>
+            <span class="trust-item"><i class="fa-solid fa-shield-halved" style="color: #00ff9d;"></i> 100% Private
+              &amp; Anonymous</span>
+            <span class="trust-item"><i class="fa-solid fa-mobile-screen" style="color: #d946ef;"></i> Virtual SMS
+              Numbers</span>
+            <span class="trust-item"><i class="fa-solid fa-ban" style="color: #ffb800;"></i> Zero Signups
+              Required</span>
+          </div>
+        </section>
+
+        <!-- Live Cyber Metrics Strip -->
+        <div class="cyber-metrics-strip reveal" style="--d: 180ms">
+          <div class="metric-card">
+            <span class="metric-val">1,480,000+</span>
+            <span class="metric-lbl"><i class="fa-solid fa-envelope-open-text" style="color: #00f0ff;"></i> Inboxes
+              Created</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val">&lt; 0.2s</span>
+            <span class="metric-lbl"><i class="fa-solid fa-stopwatch" style="color: #00ff9d;"></i> Instant
+              Delivery</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val">99.8%</span>
+            <span class="metric-lbl"><i class="fa-solid fa-circle-check" style="color: #d946ef;"></i> OTP Detection
+              Rate</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val">100% FREE</span>
+            <span class="metric-lbl"><i class="fa-solid fa-lock" style="color: #ffb800;"></i> No Logs Stored</span>
+          </div>
+        </div>
+
+        <!-- Multi-mailbox tabs -->
+        <div class="mailbox-tabs-container reveal" style="--d: 200ms" id="mailbox-tabs"></div>
+
+        <!-- Bento: address + side controls -->
+        <section class="bento">
+          <!-- Address card (hero) -->
+          <div class="bezel bento-main reveal" style="--d: 240ms">
+            <div class="bezel-core hero-email-inner">
+              <div class="core-head">
+                <span class="core-label">
+                  <i class="fa-solid fa-at"></i>
+                  <span data-i18n="hero_address_label">Your address</span>
+                </span>
+                <div class="session-timer" id="session-timer" style="display: none">
+                  <i class="fa-regular fa-clock"></i>
+                  <span id="session-timer-text">00:00</span>
+                </div>
+              </div>
+
+              <div class="email-input-group">
+                <input id="addr" placeholder="Generating email address..." data-i18n-placeholder="generating_email"
+                  readonly spellcheck="false" aria-label="Your temporary email address"
+                  data-i18n-aria-label="aria_email_address" />
+              </div>
+
+              <!-- Note for the current address ("Reddit signup") -->
+              <div class="address-label-row" id="address-label-row"></div>
+
+              <div class="address-actions">
+                <div class="button-group">
+                  <button onclick="genEmail()" class="primary-button btn-island" title="Generate new address"
+                    data-i18n-title="tooltip_new_btn">
+                    <span data-i18n="btn_new">New Address</span>
+                    <span class="btn-icon" aria-hidden="true">
+                      <i class="fa-solid fa-arrow-right"></i>
+                    </span>
+                  </button>
+                  <button onclick="refreshMail()" class="secondary-button" title="Refresh inbox"
+                    data-i18n-title="tooltip_refresh_btn">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span data-i18n="btn_refresh">Refresh</span>
+                  </button>
+                </div>
+
+                <div class="icon-row">
+                  <button onclick="copyEmail()" id="copy-btn" title="Copy email address" data-i18n-title="copy_email"
+                    class="icon-button" aria-label="Copy email address" data-i18n-aria-label="copy_email"
+                    data-tooltip="Copy" data-i18n-tooltip="tooltip_copy">
+                    <i class="fa-regular fa-copy" id="copy-icon"></i>
+                  </button>
+                  <button onclick="showQRCodeModal()" id="qrcode-btn" title="Show QR Code" data-i18n-title="show_qrcode"
+                    class="icon-button" aria-label="Show QR Code" data-i18n-aria-label="show_qrcode"
+                    data-tooltip="QR Code" data-i18n-tooltip="tooltip_qrcode">
+                    <i class="fa-solid fa-qrcode"></i>
+                  </button>
+                  <button onclick="showCustomAliasModal()" id="alias-btn" title="Custom Username"
+                    data-i18n-title="custom_username" class="icon-button" aria-label="Custom Username"
+                    data-i18n-aria-label="custom_username" data-tooltip="Custom Name"
+                    data-i18n-tooltip="tooltip_custom_name">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                  </button>
+                  <button onclick="showAddressHistory()" id="history-btn" title="Address history"
+                    data-i18n-title="tooltip_history" class="icon-button" aria-label="Address history"
+                    data-i18n-aria-label="tooltip_history" data-tooltip="Address history"
+                    data-i18n-tooltip="tooltip_history">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                  </button>
+                  <button onclick="showPrivacyReport()" id="privacy-report-btn" title="Privacy report"
+                    data-i18n-title="tooltip_privacy_report" class="icon-button" aria-label="Privacy report"
+                    data-i18n-aria-label="tooltip_privacy_report" data-tooltip="Privacy report"
+                    data-i18n-tooltip="tooltip_privacy_report">
+                    <i class="fa-solid fa-user-shield"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Countdown progress bar (shown during auto-refresh) -->
+              <div id="countdown-bar-container" class="countdown-bar-container">
+                <div id="countdown-bar" class="countdown-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Domain -->
+          <div class="bezel bento-side reveal" style="--d: 320ms">
+            <div class="bezel-core side-core">
+              <span class="core-label">
+                <i class="fa-solid fa-globe"></i>
+                <span data-i18n="domain_label">Domain:</span>
+              </span>
+              <div class="select-wrap">
+                <select id="domain-select" class="domain-select" aria-label="Select email domain"
+                  data-i18n-aria-label="aria_select_domain">
+                  <option value="random" data-i18n="domain_random">Random</option>
+                  <option value="guerrillamail.com">guerrillamail.com</option>
+                  <option value="guerrillamail.net">guerrillamail.net</option>
+                  <option value="guerrillamail.org">guerrillamail.org</option>
+                  <option value="guerrillamailblock.com">guerrillamailblock.com</option>
+                  <option value="grr.la">grr.la</option>
+                  <option value="pokemail.net">pokemail.net</option>
+                  <option value="spam4.me">spam4.me</option>
+                </select>
+                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Auto refresh -->
+          <div class="bezel bento-side reveal" style="--d: 400ms">
+            <div class="bezel-core side-core auto-refresh">
+              <span class="core-label">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                <span data-i18n="auto_refresh_label">Auto</span>
+                <span id="countdown" class="countdown-text"></span>
+              </span>
+              <div class="auto-row">
+                <label class="toggle">
+                  <input type="checkbox" id="auto-refresh" />
+                  <span class="toggle-track" aria-hidden="true"><span class="toggle-knob"></span></span>
+                </label>
+                <div class="select-wrap select-wrap-sm">
+                  <select id="refresh-interval" class="select-input" aria-label="Auto-refresh interval"
+                    data-i18n-aria-label="aria_refresh_interval">
+                    <option value="10">10s</option>
+                    <option value="30" selected>30s</option>
+                    <option value="60">1m</option>
+                    <option value="120">2m</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Inbox -->
+        <section class="bezel inbox reveal" aria-label="Inbox">
+          <div class="bezel-core inbox-core card">
+            <div class="inbox-list">
+              <div class="inbox-head">
+                <div class="email-count">
+                  <h3 data-i18n="inbox_label">Inbox</h3>
+                  <span id="email-count-badge" class="count-badge">0</span>
+                </div>
+
+                <div class="search-container">
+                  <div class="search-input-group">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="email-search" placeholder="Search emails by subject, sender..."
+                      data-i18n-placeholder="search_placeholder" aria-label="Search emails"
+                      data-i18n-aria-label="aria_search_emails" />
+                  </div>
+                </div>
+
+                <div class="inbox-actions">
+                  <button onclick="deleteAllEmails()" class="ghost-button" title="Delete all emails"
+                    data-i18n-title="tooltip_clear_all" id="delete-all-btn" style="display: none">
+                    <i class="fa-regular fa-trash-can"></i>
+                    <span data-i18n="btn_clear_all">Clear All</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Quick filter chips -->
+              <div class="filter-chips-container" id="filter-chips"></div>
+
+              <!-- Loading & errors -->
+              <div id="loading-spinner" class="spinner hidden" style="display: none"></div>
+              <div id="error-message" class="error-message hidden"></div>
+
+              <!-- Table -->
+              <div class="table-container">
+                <table id="emails" aria-describedby="email-table-caption">
+                  <caption id="email-table-caption" class="visually-hidden">
+                    Temporary email inbox
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col"><span data-i18n="table_id">ID</span></th>
+                      <th scope="col"><span data-i18n="table_from">From</span></th>
+                      <th scope="col"><span data-i18n="table_subject">Subject</span></th>
+                      <th scope="col"><span data-i18n="table_date">Date</span></th>
+                      <th scope="col"><span class="visually-hidden" data-i18n="table_actions">Actions</span></th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+                <div id="emails-responsive" class="emails-responsive" aria-live="polite"></div>
+              </div>
+            </div>
+
+            <aside id="reader-pane" class="reader-pane" aria-label="Email reader" hidden></aside>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             Features Bento Grid
+             ══════════════════════════════════════════════ -->
+        <section class="tempx-section reveal" style="--d: 200ms">
+          <div class="tempx-section-head">
+            <span class="tempx-section-tag"><i class="fa-solid fa-microchip"></i> Core Architecture</span>
+            <h2>Why Use <span>TempX</span>?</h2>
+            <p>Engineered for high-volume automated signups, privacy testing, and zero-spam browsing.</p>
+          </div>
+
+          <div class="tempx-features-grid">
+            <!-- Feat 1 -->
+            <div class="tempx-feat-card">
+              <div class="tempx-feat-icon icon-cyan">
+                <i class="fa-solid fa-bolt-lightning"></i>
+              </div>
+              <h3>Instant 0.2s Inboxes</h3>
+              <p>Generate high-reputation disposable email addresses across 7+ rotating domains in a single click with
+                zero registration.</p>
+            </div>
+
+            <!-- Feat 2 -->
+            <div class="tempx-feat-card">
+              <div class="tempx-feat-icon icon-violet">
+                <i class="fa-solid fa-mobile-screen"></i>
+              </div>
+              <h3>Virtual Phone Numbers</h3>
+              <p>Receive SMS verification codes for Telegram, WhatsApp, Gmail &amp; OpenAI without using your personal
+                SIM card.</p>
+            </div>
+
+            <!-- Feat 3 -->
+            <div class="tempx-feat-card">
+              <div class="tempx-feat-icon icon-emerald">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <h3>AI OTP Isolator</h3>
+              <p>Smart regex engine scans incoming email bodies and highlights 4 to 8 digit verification codes in big,
+                bold, copyable badges.</p>
+            </div>
+
+            <!-- Feat 4 -->
+            <div class="tempx-feat-card">
+              <div class="tempx-feat-icon icon-emerald">
+                <i class="fa-solid fa-robot"></i>
+              </div>
+              <h3>Built for Automation</h3>
+              <p>Optimized for scripts, bots, multi-account creations, and referral programs by the EarnifyX Automation
+                community.</p>
+            </div>
+
+            <!-- Feat 5 -->
+            <div class="tempx-feat-card">
+              <div class="tempx-feat-icon icon-cyan">
+                <i class="fa-solid fa-eye-slash"></i>
+              </div>
+              <h3>Stealth Privacy Guard</h3>
+              <p>Incoming HTML is automatically cleaned to neutralize tracking beacons, spy pixels, and malicious remote
+                scripts.</p>
+            </div>
+
+            <!-- Feat 6 -->
+            <div class="tempx-feat-card">
+              <div class="tempx-feat-icon icon-violet">
+                <i class="fa-solid fa-wallet"></i>
+              </div>
+              <h3>Transparent Wallet</h3>
+              <p>Top up micro-balances for virtual numbers with guaranteed automatic refunds if an SMS is not received
+                in 15 minutes.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             How It Works Step-by-Step
+             ══════════════════════════════════════════════ -->
+        <section class="tempx-section reveal" style="--d: 250ms">
+          <div class="tempx-section-head">
+            <span class="tempx-section-tag"><i class="fa-solid fa-diagram-project"></i> Simple Workflow</span>
+            <h2>How It <span>Works</span></h2>
+            <p>Get temporary credentials in seconds without exposing your identity.</p>
+          </div>
+
+          <div class="tempx-how-grid">
+            <div class="tempx-how-card">
+              <span class="tempx-step-num">01</span>
+              <h4>Copy Address</h4>
+              <p>Click once to copy your ready-to-use temporary email or pick your own custom alias.</p>
+            </div>
+            <div class="tempx-how-card">
+              <span class="tempx-step-num">02</span>
+              <h4>Use for Signups</h4>
+              <p>Paste it on any website, registration form, or app requiring email verification.</p>
+            </div>
+            <div class="tempx-how-card">
+              <span class="tempx-step-num">03</span>
+              <h4>Get Live OTP</h4>
+              <p>Watch incoming emails stream into your live cyber inbox with real-time countdown sync.</p>
+            </div>
+            <div class="tempx-how-card">
+              <span class="tempx-step-num">04</span>
+              <h4>Auto-Vanish</h4>
+              <p>Emails and history expire safely without leaving a single digital footprint behind.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             EarnifyX Community Banner Card
+             ══════════════════════════════════════════════ -->
+        <section class="earnifyx-community-card reveal" style="--d: 300ms">
+          <div class="community-info">
+            <div class="hero-badge-pill" style="margin-bottom: 0.6rem;">
+              <span class="badge-dot"></span>
+              <span>OFFICIAL COMMUNITY HUB</span>
+            </div>
+            <h3>Join <span>EarnifyX Automation</span></h3>
+            <p>Get exclusive access to automation scripts, bulk signup tools, verified methods, and daily community
+              updates.</p>
+            <div class="community-perks-row">
+              <span class="c-perk"><i class="fa-solid fa-check-circle"></i> Free Automation Scripts</span>
+              <span class="c-perk"><i class="fa-solid fa-check-circle"></i> 24/7 Community Support</span>
+              <span class="c-perk"><i class="fa-solid fa-check-circle"></i> Daily Earning &amp; Bypass Methods</span>
+            </div>
+          </div>
+          <div class="community-actions">
+            <a href="https://t.me" target="_blank" rel="noopener noreferrer" class="btn-community-tg">
+              <i class="fa-brands fa-telegram"></i>
+              <span>Join Telegram</span>
+            </a>
+          </div>
+        </section>
+      </div> <!-- /#mail-workspace -->
+
+      <!-- ══════════════════════════════════════════════
+           GhostSMS — Virtual Numbers & OTP Receiver
+           ══════════════════════════════════════════════ -->
+      <div id="sms-workspace" style="display: none;">
+        <!-- SMS Hero -->
+        <section class="hero reveal">
+          <div class="hero-badge-pill" style="margin-bottom: 0.6rem;">
+            <span class="badge-dot"></span>
+            <span>TEMPX VIRTUAL SMS HUB</span>
+            <span class="badge-tag">AUTO-REFUND</span>
+          </div>
+          <div class="sms-hero-left">
+            <h1 class="hero-title">
+              Virtual Numbers, <em
+                style="background: linear-gradient(135deg, #00ff9d 0%, #00f0ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Intercepted
+                Live.</em>
+            </h1>
+            <p class="hero-sub">
+              Private disposable phone numbers for WhatsApp, Telegram, Google &amp; 50+ services. Instant 100% refund to
+              wallet if no SMS arrives.
+            </p>
+          </div>
+          <div class="sms-hero-right">
+            <button class="ghost-button api-config-btn" onclick="openSmsConfigModal()"
+              title="SMS Provider API Key Settings">
+              <i class="fa-solid fa-key"></i>
+              <span>API Key Settings</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Active Orders Section (Live Numbers & OTPs) -->
+        <section id="sms-active-orders-section" class="sms-active-section">
+          <div class="sms-section-head">
+            <h3><i class="fa-solid fa-tower-broadcast"></i> Active Numbers &amp; Live OTPs</h3>
+            <span class="sms-active-badge">Real-time Polling</span>
+          </div>
+
+          <div id="sms-no-active-orders" class="sms-empty-card bezel">
+            <div class="bezel-core sms-empty-inner">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+              <h4>No Active Numbers Right Now</h4>
+              <p>Select any service below to buy an instant virtual number. If OTP doesn't arrive within 15 minutes,
+                your money is 100% refunded!</p>
+            </div>
+          </div>
+
+          <div id="sms-active-cards" class="sms-active-grid"></div>
+        </section>
+
+        <!-- Country Selection Bar -->
+        <section class="sms-filter-bar bezel">
+          <div class="bezel-core sms-filter-inner">
+            <div class="filter-item">
+              <label for="sms-country-select"><i class="fa-solid fa-globe"></i> Select Country:</label>
+              <div class="select-wrap">
+                <select id="sms-country-select" class="select-input" onchange="renderServicesGrid()">
+                  <!-- Dynamically populated -->
+                </select>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="filter-perk">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>Guaranteed auto-refund on failed SMS</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Services Catalog Section -->
+        <section class="sms-catalog-section">
+          <div class="sms-section-head">
+            <h3><i class="fa-solid fa-bolt"></i> Available Services</h3>
+            <span class="sms-hint-note">Prices deduct from your TempX Wallet balance</span>
+          </div>
+
+          <div id="sms-services-grid" class="sms-services-grid"></div>
+        </section>
+      </div> <!-- /#sms-workspace -->
+    </main>
+
+    <!-- Footer -->
+    <footer role="contentinfo" class="site-footer reveal">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="footer-word">Temp<span style="color: #00f0ff;">X</span><em>.</em></span>
+          <p>
+            <span>TempX by <strong>EarnifyX Automation</strong> — </span>
+            <a href="https://www.guerrillamail.com" target="_blank" rel="noopener noreferrer">Guerrilla Mail API</a>
+          </p>
+          <p class="version">Next-Gen Disposable Mail &amp; Virtual SMS • EarnifyX Edition</p>
+        </div>
+
+        <div class="footer-right">
+          <div class="social">
+            <span class="footer-badge"><i class="fa-solid fa-bolt"></i> Stealth Active</span>
+          </div>
+
+          <div class="footer-buttons">
+            <button class="ghost-button" onclick="showWarning()">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span data-i18n="btn_disclaimer">Disclaimer</span>
+            </button>
+            <a class="ghost-button" href="privacy/privacy.html" target="_blank" rel="noopener noreferrer">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span data-i18n="btn_privacy">Privacy Policy</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Welcome Message -->
+  <div id="welcomeMessage" class="welcome-message" role="dialog" aria-labelledby="welcome-title">
+    <div class="welcome-message-inner">
+      <div class="welcome-message-header">
+        <span class="eyebrow eyebrow-sm"><span class="eyebrow-dot"></span>EarnifyX</span>
+        <h3 id="welcome-title" data-i18n="welcome_header">Welcome to TempX</h3>
+      </div>
+      <div class="welcome-message-content">
+        <p data-i18n="welcome_p1">
+          Your temporary email address is being generated. Use it to sign up for
+          services without revealing your real email.
+        </p>
+        <p class="welcome-tips-title"><strong data-i18n="welcome_tips_header">Tips:</strong></p>
+        <ul>
+          <li data-i18n="welcome_tip1">Press <kbd>?</kbd> to see keyboard shortcuts</li>
+          <li data-i18n="welcome_tip2">Enable auto-refresh to get emails instantly</li>
+          <li data-i18n="welcome_tip3">Click "New Address" if loading fails</li>
+          <li data-i18n="welcome_tip4">Press <kbd>⌘K</kbd> to open the command palette</li>
+        </ul>
+        <p data-i18n="welcome_p3">Thank you for using this project! ❤️</p>
+      </div>
+      <div class="welcome-message-actions">
+        <button onclick="hideWelcomeMessage()" class="primary-button btn-island">
+          <span data-i18n="btn_got_it">Got it!</span>
+          <span class="btn-icon" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard shortcut hint -->
+  <button class="shortcut-hint" onclick="showShortcuts()" title="Keyboard shortcuts"
+    data-i18n-title="tooltip_shortcuts">
+    <kbd>?</kbd> <span data-i18n="shortcut_hint_text">Shortcuts</span>
+  </button>
+
+  <!-- Scroll to top button -->
+  <button id="scroll-top-btn" class="scroll-top-btn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    aria-label="Scroll to top" data-i18n-aria-label="aria_scroll_top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- Mobile FAB -->
+  <div class="mobile-fab" id="mobile-fab">
+    <div class="fab-actions" id="fab-actions">
+      <button class="fab-action" onclick="refreshMail(); toggleFab();" aria-label="Refresh"
+        data-i18n-aria-label="btn_refresh">
+        <i class="fa-solid fa-rotate"></i>
+      </button>
+      <button class="fab-action" onclick="genEmail(); toggleFab();" aria-label="New Address"
+        data-i18n-aria-label="btn_new">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+      </button>
+      <button class="fab-action" onclick="copyEmail(); toggleFab();" aria-label="Copy"
+        data-i18n-aria-label="copy_email">
+        <i class="fa-regular fa-copy"></i>
+      </button>
+    </div>
+    <button class="fab-main" id="fab-main" onclick="toggleFab()" aria-label="Quick actions"
+      data-i18n-aria-label="aria_quick_actions">
+      <span class="fab-line"></span>
+      <span class="fab-line"></span>
+    </button>
+  </div>
+
+  <!-- Interaction scripts -->
+  <script>
+    // Mobile FAB toggle
+    function toggleFab() {
+      const btn = document.getElementById("fab-main");
+      const actions = document.getElementById("fab-actions");
+      btn.classList.toggle("open");
+      actions.classList.toggle("show");
+    }
+
+    // Close FAB on outside click
+    document.addEventListener("click", (e) => {
+      const fab = document.getElementById("mobile-fab");
+      if (fab && !fab.contains(e.target)) {
+        document.getElementById("fab-main")?.classList.remove("open");
+        document.getElementById("fab-actions")?.classList.remove("show");
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Scroll entry reveals
+      const items = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+        );
+        items.forEach((el) => io.observe(el));
+      } else {
+        items.forEach((el) => el.classList.add("in"));
+      }
+
+      // Scroll-to-top + nav condense, driven by a sentinel instead of scroll events
+      const sentinel = document.createElement("div");
+      sentinel.className = "scroll-sentinel";
+      sentinel.setAttribute("aria-hidden", "true");
+      document.body.prepend(sentinel);
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(([entry]) => {
+          const scrolled = !entry.isIntersecting;
+          document.getElent?.classList.toggle("visible", scrolled);
+          document.documentElement.classList.toggle("is-scrolled", scrolled);
+        }).observe(sentinel);
+      }
+    });
+  </script>
+
+  <!-- Welcome Message Logic -->
+  <script>
+    function hideWelcomeMessage() {
+      const welcomeMessage = document.getElementById("welcomeMessage");
+      welcomeMessage.classList.remove("show");
+      welcomeMessage.classList.add("leaving");
+
+      if (typeof confetti === "function") {
+        confetti({
+          particleCount: 110,
+          spread: 150,
+          origin: { y: 0.85 },
+          colors: ["#00F0FF", "#D946EF", "#00FF9D", "#FF007F", "#FFFFFF"],
+          startVelocity: 38,
+          gravity: 1.15,
+          scalar: 0.7,
+          ticks: 120,
+        });
+      }
+
+      setTimeout(() => {
+        welcomeMessage.remove();
+        localStorage.setItem("welcomeMessageSeen", "true");
+      }, 600);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!localStorage.getItem("welcomeMessageSeen")) {
+        setTimeout(() => {
+          const welcomeMessage = document.getElementById("welcomeMessage");
+          if (welcomeMessa) elcomeMessage.classList.add("show");
+        }, 900);
+      } else {
+        const wm = document.getElementById("welcomeMessage");
+        if (wm) wm.remove();
+      }
+    });
+  </script>
+
+  <!-- Auth Modal (Cyberpunk Glassmorphism) -->
+  <div id="auth-modal" class="auth-modal-backdrop" role="dialog" aria-modal="true" style="display: none;">
+    <div class="auth-modal-card bezel">
+      <div class="bezel-core auth-card-inner">
+        <button class="auth-close-btn" onclick="closeAuthModal()" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="auth-header">
+          <div class="auth-logo-badge">
+            <i class="fa-solid fa-bolt" style="color: #00f0ff;"></i>
+          </div>
+          <h3 id="auth-title">Sign In to TempX</h3>
+          <p id="auth-subtitle" class="auth-subtitle">Access your persistent wallet, active numbers &amp; EarnifyX
+            features.</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button id="auth-tab-login" class="auth-tab active" onclick="switchAuthTab('login')">
+            Sign In
+          </button>
+          <button id="auth-tab-register" class="auth-tab" onclick="switchAuthTab('register')">
+            Register Free
+          </button>
+        </div>
+
+        <!-- Alert Notification -->
+        <div id="auth-alert" class="auth-alert" style="display: none;"></div>
+
+        <!-- Login Form -->
+        <form id="login-form" onsubmit="handleLogin(event)" class="auth-form">
+          <div class="auth-field">
+            <label for="login-username"><i class="fa-solid fa-user"></i> Username</label>
+            <input type="text" id="login-username" placeholder="e.g. ghost_agent" required autocomplete="username" />
+          </div>
+          <div class="auth-field">
+            <label for="login-password"><i class="fa-solid fa-lock"></i> Passcode</label>
+            <div class="password-input-wrap">
+              <input type="password" id="login-password" placeholder="••••••••" required
+                autocomplete="current-password" />
+              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('login-password')"
+                aria-label="Toggle password">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="primary-button auth-submit-btn">
+            <span>Authenticate</span>
+            <i class="fa-solid fa-bolt"></i>
+          </button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="register-form" onsubmit="handleRegister(event)" class="auth-form" style="display: none;">
+          <div class="auth-field">
+            <label for="reg-username"><i class="fa-solid fa-user-plus"></i> Choose Username</label>
+            <input type="text" id="reg-username" placeholder="e.g. cyber_agent" minlength="3" maxlength="20" required
+              autocomplete="username" />
+          </div>
+          <div class="auth-field">
+            <label for="reg-email"><i class="fa-solid fa-envelope"></i> Recovery Email (Optional)</label>
+            <input type="email" id="reg-email" placeholder="backup@example.com (optional)" autocomplete="email" />
+          </div>
+          <div class="auth-field">
+            <label for="reg-password"><i class="fa-solid fa-shield-halved"></i> Create Passcode</label>
+            <div class="password-input-wrap">
+              <input type="password" id="reg-password" placeholder="Minimum 4 characters" minlength="4" required
+                autocomplete="new-password" />
+              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('reg-password')"
+                aria-label="Toggle password">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="auth-perks-box">
+            <div class="perk-item"><i class="fa-solid fa-check"></i> Unlimited Mailbox Switching</div>
+            <div class="perk-item"><i class="fa-solid fa-check"></i> Persistent Stealth Identity</div>
+            <div class="perk-item"><i class="fa-solid fa-check"></i> 100% Free Forever</div>
+          </div>
+          <button type="submit" class="primary-button auth-submit-btn">
+            <span>Create Ghost Account</span>
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </button>
+        </form>
+
+        <div class="auth-footer-note">
+          <i class="fa-solid fa-lock"></i> Client-side encrypted &bull; Zero spam guarantee
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       Wallet Modal (Recharge & Transaction History)
+       ══════════════════════════════════════════════ -->
+  <div id="wallet-modal" class="auth-modal-backdrop" role="dialog" aria-modal="true" style="display: none;">
+    <div class="auth-modal-card bezel wallet-modal-card">
+      <div class="bezel-core auth-card-inner">
+        <button class="auth-close-btn" onclick="closeWalletModal()" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="auth-header">
+          <div class="auth-logo-badge wallet-badge">
+            <i class="fa-solid fa-wallet"></i>
+          </div>
+          <h3>TempX Live Wallet</h3>
+          <p class="auth-subtitle">Add funds to purchase virtual phone numbers &amp; SMS OTPs.</p>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="wallet-balance-card">
+          <span class="balance-label">Available Balance:</span>
+          <span id="modal-wallet-balance" class="balance-amount">₹50.00</span>
+          <span class="balance-hint"><i class="fa-solid fa-shield-check"></i> 100% Refundable on failed OTPs</span>
+        </div>
+
+        <!-- Recharge Gateway Selector Tabs -->
+        <div class="wallet-tabs-nav">
+          <button id="w-tab-btn-binance" class="wallet-tab-btn tab-binance active" onclick="switchWalletTab('binance')">
+            <i class="fa-brands fa-bitcoin"></i>
+            <span>Binance Pay / USDT</span>
+          </button>
+          <button id="w-tab-btn-upi" class="wallet-tab-btn" onclick="switchWalletTab('upi')">
+            <i class="fa-solid fa-bolt"></i>
+            <span>UPI / Card (INR)</span>
+          </button>
+        </div>
+
+        <!-- Tab 1: Binance Pay / Crypto Content (Compact & Clean) -->
+        <div id="wallet-tab-binance-content" class="binance-pay-box">
+          <div class="binance-head">
+            <span class="binance-brand"><i class="fa-brands fa-bitcoin"></i> Binance Pay</span>
+            <span class="binance-tag"><i class="fa-solid fa-bolt"></i> 1 USDT = ₹88</span>
+          </div>
+
+          <div class="binance-compact-body">
+            <!-- Left: QR Code -->
+            <div class="binance-compact-qr">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&amp;data=binancepay://pay?id=94820184"
+                alt="Binance Pay QR Code" class="binance-qr-thumb" />
+              <span>Scan QR</span>
+            </div>
+
+            <!-- Right: Pay ID & Action -->
+            <div class="binance-compact-details">
+              <div class="binance-payid-pill" onclick="copyText('94820184')" title="Click to copy Pay ID">
+                <i class="fa-solid fa-id-badge"></i>
+                <span>Pay ID: <strong>94820184</strong></span>
+                <i class="fa-regular fa-copy" style="font-size: 0.72rem; margin-left: auto;"></i>
+              </div>
+
+              <!-- Quick amount chips -->
+              <div class="binance-quick-chips">
+                <button class="b-chip" onclick="handleBinanceRecharge(1.0)">+1 USDT</button>
+                <button class="b-chip active" onclick="handleBinanceRecharge(5.0)">+5 USDT</button>
+                <button class="b-chip" onclick="handleBinanceRecharge(10.0)">+10 USDT</button>
+                <button class="b-chip" onclick="handleBinanceRecharge(25.0)">+25 USDT</button>
+              </div>
+
+              <button class="btn-binance-pay-sm" onclick="handleBinanceRecharge(5.0)">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Auto-Credit 5 USDT (~₹440)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: UPI / Quick Recharge Content -->
+        <div id="wallet-tab-upi-content" style="display: none;">
+          <div class="quick-recharge-section">
+            <span class="quick-title">Quick Top-Up (INR):</span>
+            <div class="quick-amounts-grid">
+              <button class="quick-amt-btn" onclick="handleQuickRecharge(50)">+₹50</button>
+              <button class="quick-amt-btn" onclick="handleQuickRecharge(100)">+₹100</button>
+              <button class="quick-amt-btn" onclick="handleQuickRecharge(250)">+₹250</button>
+              <button class="quick-amt-btn" onclick="handleQuickRecharge(500)">+₹500</button>
+            </div>
+          </div>
+
+          <!-- Custom Recharge Form -->
+          <form onsubmit="handleCustomRecharge(event)" class="custom-recharge-form">
+            <div class="recharge-input-wrap">
+              <span class="currency-symbol">₹</span>
+              <input type="number" id="custom-recharge-amount" placeholder="Enter custom amount" min="10" max="10000"
+                required />
+              <button type="submit" class="primary-button recharge-submit-btn">
+                <span>Add Balance</span>
+                <i class="fa-solid fa-bolt"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="wallet-history-section">
+          <span class="history-title"><i class="fa-solid fa-clock-rotate-left"></i> Transaction History</span>
+          <div id="wallet-tx-history" class="wallet-tx-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SMS Provider API Config Modal
+       ══════════════════════════════════════════════ -->
+  <div id="sms-config-modal" class="auth-modal-backdrop" role="dialog" aria-modal="true" style="display: none;">
+    <div class="auth-modal-card bezel">
+      <div class="bezel-core auth-card-inner">
+        <button class="auth-close-btn" onclick="closeSmsConfigModal()" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="auth-header">
+          <div class="auth-logo-badge">
+            <i class="fa-solid fa-key"></i>
+          </div>
+          <h3>SMS API Integration</h3>
+          <p class="auth-subtitle">Connect your SMS-Activate, 5SIM, or SMSPool account.</p>
+        </div>
+
+        <form id="sms-config-form" onsubmit="saveSmsApiConfig(event)" class="auth-form">
+          <div class="auth-field">
+            <label for="cfg-provider"><i class="fa-solid fa-server"></i> Provider API Format</label>
+            <div class="select-wrap">
+              <select id="cfg-provider" class="select-input">
+                <option value="smsbower" selected>SMSBower.app (Client handler_api.php) [Recommended]</option>
+                <option value="sms-activate">SMS-Activate.org (handler_api.php)</option>
+                <option value="5sim">5SIM.net</option>
+                <option value="smspool">SMSPool.net</option>
+                <option value="simulation">Demo / Testing Simulator</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label for="cfg-apikey"><i class="fa-solid fa-key"></i> Your Secret API Key</label>
+            <input type="text" id="cfg-apikey" placeholder="Paste your API Key here" spellcheck="false"
+              autocomplete="off" />
+          </div>
+
+          <div class="auth-perks-box">
+            <div class="perk-item"><i class="fa-solid fa-lock"></i> API Key is stored securely on your server</div>
+            <div class="perk-item"><i class="fa-solid fa-check"></i> Leave empty to test with simulation mode</div>
+          </div>
+
+          <button type="submit" class="primary-button auth-submit-btn">
+            <span>Save API Configuration</span>
+            <i class="fa-solid fa-check"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- App scripts -->
+  <script src="js/config.js" type="module"></script>
+  <script src="js/auth.js" type="module"></script>
+  <script src="js/wallet.js" type="module"></script>
+  <script src="js/sms.js" type="module"></script>
+  <script src="js/api.js" type="module"></script>
+  <script src="js/theme.js" type="module"></script>
+
+  <script>
+    // SMS Config Modal Controls
+    async function openSmsConfigModal() {
+      const modal = document.getElementById('sms-config-modal');
+      if (!modal) return;
+      try {
+        const res = await fetch('/api/sms/config');
+        if (res.ok) {
+          const cfg = await res.json();
+          const pEl = document.getElementById('cfg-provider');
+          const kEl = document.getElementById('cfg-apikey');
+          if (pEl && cfg.provider) pEl.value = cfg.provider;
+          if (kEl && cfg.apiKey && cfg.apiKey !== 'YOUR_API_KEY_HERE') kEl.value = cfg.apiKey;
+        }
+      } catch (e) { }
+      modal.style.display = 'flex';
+    }
+
+    function closeSmsConfigModal() {
+      const modal = document.getElementById('sms-config-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    async function saveSmsApiConfig(e) {
+      e.preventDefault();
+      const pEl = document.getElementById('cfg-provider');
+      const kEl = document.getElementById('cfg-apikey');
+      const payload = {
+        provider: pEl ? pEl.value : 'sms-activate',
+        apiKey: kEl ? kEl.value.trim() : '',
+        currency: '₹',
+        active: !!(kEl && kEl.value.trim())
+      };
+      try {
+        const res = await fetch('/api/sms/config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          if (window.showToast) window.showToast('SMS Provider API key saved successfully!', 'success');
+          closeSmsConfigModal();
+        }
+      } catch (err) {
+        if (window.showToa) whowToast('Error saving configuration 'e
+      }
+    }
+
+    window.openSmsConfigModal = openSmsConfigModal;
+    window.closeSmsConfigModal = closeSmsConfigModal;
+    window.saveSmsApiConfig = saveSmsApiConfig;
+  </script>
+</body>
+
+</html>
