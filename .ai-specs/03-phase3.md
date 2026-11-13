@@ -1,7 +1,7 @@
 # Phase 3 — Installable PWA
 
 Read `.ai-specs/00-rules.md` first. This phase MAY edit `manifest.json` and add new files. The site is served from
-GitHub Pages under a sub-path (`https://mehmetkahya0.github.io/temp-mail/`), so EVERY path must be relative
+GitHub Pages or static hosting, so EVERY path must be relative
 (`./…`), never root-absolute (`/…`).
 
 ## 3A. App icon

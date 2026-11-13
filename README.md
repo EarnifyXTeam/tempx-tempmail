@@ -199,16 +199,14 @@ V5 is built around one observation: **people open a temporary inbox to get a cod
 ## 🚀 Quick start
 
 ```bash
-git clone https://github.com/mehmetkahya0/temp-mail.git
-cd temp-mail
+git clone https://github.com/EarnifyXTeam/tempx-tempmail.git
+cd tempx-tempmail
 
-# any static server bound to 127.0.0.1
-python -m http.server 8080 --bind 127.0.0.1
-# or
-npx live-server --host=127.0.0.1 --port=8080
+# Run the live server with backend API
+node serve.js
 ```
 
-Open **http://127.0.0.1:8080**.
+Open **http://127.0.0.1:3000** in your browser.
 
 > [!NOTE]
 > Opening `index.html` from the file system **won't work**. ES modules and service workers need HTTP, and the domain guard only allows `127.0.0.1` and the official site.
@@ -1197,46 +1195,49 @@ Configuration and theme handling refresh.
 ## ⭐ Star history
 
 <div align="center">
-  <a href="https://star-history.com/#mehmetkahya0/temp-mail&Date">
+  <a href="https://star-history.com/#EarnifyXTeam/tempx-tempmail&Date">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mehmetkahya0/temp-mail&type=Date&theme=dark" />
-      <img src="https://api.star-history.com/svg?repos=mehmetkahya0/temp-mail&type=Date" alt="Star history chart" width="680" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=EarnifyXTeam/tempx-tempmail&type=Date&theme=dark" />
+      <img src="https://api.star-history.com/svg?repos=EarnifyXTeam/tempx-tempmail&type=Date" alt="Star history chart" width="680" />
     </picture>
   </a>
   <br /><br />
-  <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fmehmetkahya0%2Ftemp-mail&label=VISITORS&labelColor=%230C0D10&countColor=%23D4FF3F" alt="Visitors" />
+  <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEarnifyXTeam%2Ftempx-tempmail&label=VISITORS&labelColor=%230C0D10&countColor=%2300F0FF" alt="Visitors" />
 </div>
 
 <br />
 
-## 👤 Author
+## 👥 Organization & Community
 
 <div align="center">
-  <a href="https://github.com/mehmetkahya0">
-    <img src="https://github.com/mehmetkahya0.png" width="96" alt="Mehmet Kahya" />
+  <a href="https://github.com/EarnifyXTeam">
+    <img src="images/app-icon.svg" width="96" alt="EarnifyX Automation" />
   </a>
+  <br /><br />
+  <b>EarnifyX Automation Team</b>
   <br />
-  <b>Mehmet Kahya</b>
+  <sub>Empowering Hustlers, Creators & Automators</sub>
   <br /><br />
 
-[![GitHub](https://img.shields.io/badge/GitHub-121011?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mehmetkahya0)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/mehmet-kahya-0861a4286)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mehmetkahyakas5@gmail.com)
+[![GitHub](https://img.shields.io/badge/GitHub-EarnifyXTeam-121011?style=for-the-badge&logo=github&logoColor=white)](https://github.com/EarnifyXTeam)
+[![Telegram](https://img.shields.io/badge/Telegram-Community-0088CC?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me)
+[![Repository](https://img.shields.io/badge/Repo-tempx--tempmail-00F0FF?style=for-the-badge&logo=git&logoColor=black)](https://github.com/EarnifyXTeam/tempx-tempmail)
 
 </div>
 
 <br />
 
-## 📜 License & thanks
+## 📜 License & Acknowledgments
 
-**Proprietary — all rights reserved.** The source is public to read, not to reuse: no copying, redeploying, modifying or commercial use without the author's written permission. Using the [official site](https://mehmetkahya0.github.io/temp-mail/) is free for everyone. See [LICENSE](LICENSE) and [SECURITY.md](SECURITY.md).
+This project is open-source under the [MIT License](LICENSE). Free for personal, commercial, and automation use. Built for the **EarnifyX Automation** community.
 
-| Thanks to | For |
+| Technology | Purpose |
 |---|---|
-| [Guerrilla Mail](https://www.guerrillamail.com/) | The temporary email API |
-| [Geist](https://vercel.com/font) · [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif) | Typography |
-| [Font Awesome](https://fontawesome.com/) | Icons |
-| [canvas-confetti](https://github.com/catdad/canvas-confetti) | Celebrations 🎉 |
+| [Guerrilla Mail](https://www.guerrillamail.com/) | Disposable temporary email engine |
+| [SMSBower](https://smsbower.app) | Virtual SMS and OTP receiver gateway |
+| [Geist](https://vercel.com/font) | Cyberpunk modern typography |
+| [Font Awesome](https://fontawesome.com/) | Modern UI icon library |
+| [canvas-confetti](https://github.com/catdad/canvas-confetti) | Milestone & payment celebrations 🎉 |
 | Everyone who reported bugs and tested | Making it better |
 
 <br />
