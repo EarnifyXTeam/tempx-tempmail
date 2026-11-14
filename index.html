@@ -139,7 +139,7 @@
         <button id="mode-tab-sms" class="mode-btn" onclick="switchAppMode('sms')" aria-label="Switch to Virtual SMS">
           <i class="fa-solid fa-mobile-screen"></i>
           <span>Virtual SMS</span>
-          <span class="sms-new-tag">HOT</span>
+          <span class="sms-new-tag" style="background: rgba(255, 184, 0, 0.16); color: #ffb800; border: 1px solid rgba(255, 184, 0, 0.35);">HOLD</span>
         </button>
       </div>
 
@@ -166,7 +166,7 @@
         <div class="wallet-pill" onclick="openWalletModal()" title="TempX Wallet Balance &amp; Recharge">
           <i class="fa-solid fa-wallet"></i>
           <span class="wallet-currency" id="nav-wallet-currency">₹</span>
-          <span id="wallet-balance-val">50.00</span>
+          <span id="wallet-balance-val">0.00</span>
           <span class="wallet-add-btn" aria-label="Add funds"><i class="fa-solid fa-plus"></i></span>
         </div>
 
@@ -612,6 +612,22 @@
            GhostSMS — Virtual Numbers & OTP Receiver
            ══════════════════════════════════════════════ -->
       <div id="sms-workspace" style="display: none;">
+        <!-- Cyber Maintenance Notice Banner -->
+        <div class="sms-maintenance-banner reveal">
+          <div class="maint-icon-pulse">
+            <i class="fa-solid fa-wrench"></i>
+          </div>
+          <div class="maint-content">
+            <div class="maint-tag"><i class="fa-solid fa-triangle-exclamation"></i> SERVER UPGRADE IN PROGRESS</div>
+            <h3>Virtual Numbers are Temporarily on Hold</h3>
+            <p>Hamare virtual SMS servers par upgrade chal raha hai. Aap tab tak bina kisi limit ke <strong>100% Free &amp; Unlimited Temp Mail</strong> ka use karein!</p>
+          </div>
+          <button class="primary-button maint-cta-btn" onclick="switchAppMode('mail')">
+            <i class="fa-solid fa-envelope-open-text"></i>
+            <span>Use Unlimited Temp Mail</span>
+          </button>
+        </div>
+
         <!-- SMS Hero -->
         <section class="hero reveal">
           <div class="hero-badge-pill" style="margin-bottom: 0.6rem;">
@@ -833,7 +849,7 @@
       if ("IntersectionObserver" in window) {
         new IntersectionObserver(([entry]) => {
           const scrolled = !entry.isIntersecting;
-          document.getElent?.classList.toggle("visible", scrolled);
+          document.getElementById("scroll-top-btn")?.classList.toggle("visible", scrolled);
           document.documentElement.classList.toggle("is-scrolled", scrolled);
         }).observe(sentinel);
       }
@@ -844,6 +860,7 @@
   <script>
     function hideWelcomeMessage() {
       const welcomeMessage = document.getElementById("welcomeMessage");
+      if (!welcomeMessage) return;
       welcomeMessage.classList.remove("show");
       welcomeMessage.classList.add("leaving");
 
@@ -870,7 +887,7 @@
       if (!localStorage.getItem("welcomeMessageSeen")) {
         setTimeout(() => {
           const welcomeMessage = document.getElementById("welcomeMessage");
-          if (welcomeMessa) elcomeMessage.classList.add("show");
+          if (welcomeMessage) welcomeMessage.classList.add("show");
         }, 900);
       } else {
         const wm = document.getElementById("welcomeMessage");
@@ -993,7 +1010,7 @@
         <!-- Balance Card -->
         <div class="wallet-balance-card">
           <span class="balance-label">Available Balance:</span>
-          <span id="modal-wallet-balance" class="balance-amount">₹50.00</span>
+          <span id="modal-wallet-balance" class="balance-amount">₹0.00</span>
           <span class="balance-hint"><i class="fa-solid fa-shield-check"></i> 100% Refundable on failed OTPs</span>
         </div>
 
@@ -1189,14 +1206,67 @@
           closeSmsConfigModal();
         }
       } catch (err) {
-        if (window.showToa) whowToast('Error saving configuration 'e
+        if (window.showToast) window.showToast('Error saving configuration: ' + err.message, 'error');
       }
+    }
+
+    // Maintenance Modal Controls
+    function showMaintenanceAlert() {
+      const modal = document.getElementById('sms-maintenance-modal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeMaintenanceAlert() {
+      const modal = document.getElementById('sms-maintenance-modal');
+      if (modal) modal.style.display = 'none';
     }
 
     window.openSmsConfigModal = openSmsConfigModal;
     window.closeSmsConfigModal = closeSmsConfigModal;
     window.saveSmsApiConfig = saveSmsApiConfig;
+    window.showMaintenanceAlert = showMaintenanceAlert;
+    window.closeMaintenanceAlert = closeMaintenanceAlert;
   </script>
+
+  <!-- ══════════════════════════════════════════════
+       Virtual SMS Under Maintenance Modal
+       ══════════════════════════════════════════════ -->
+  <div id="sms-maintenance-modal" class="auth-modal-backdrop" role="dialog" aria-modal="true" style="display: none;">
+    <div class="auth-modal-card bezel" style="max-width: 440px;">
+      <div class="bezel-core auth-card-inner" style="text-align: center; padding: 2.2rem 1.7rem;">
+        <button class="auth-close-btn" onclick="closeMaintenanceAlert()" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="maint-modal-icon">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+        </div>
+        
+        <div class="hero-badge-pill" style="margin: 0.6rem auto 1rem; width: fit-content; border-color: rgba(255, 184, 0, 0.4); background: rgba(255, 184, 0, 0.1);">
+          <span class="badge-dot" style="background: #ffb800; box-shadow: 0 0 10px #ffb800;"></span>
+          <span style="color: #ffb800; font-weight: 700;">TEMPORARY HOLD</span>
+        </div>
+
+        <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.6rem; color: #fff;">
+          Virtual Numbers Under Maintenance
+        </h3>
+
+        <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 1.4rem;">
+          Virtual SMS gateway par server upgrades chal rahe hain. Filhal aap bina kisi limit ke TempX ka <strong>100% Free &amp; Unlimited Temporary Email</strong> use karein!
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <button class="primary-button maint-cta-btn" onclick="closeMaintenanceAlert(); switchAppMode('mail');" style="width: 100%; justify-content: center; padding: 0.75rem 1.2rem; font-size: 0.95rem;">
+            <i class="fa-solid fa-envelope-circle-check"></i>
+            <span>Switch to Unlimited Temp Mail</span>
+          </button>
+          <button class="secondary-button" onclick="closeMaintenanceAlert()" style="width: 100%; justify-content: center; padding: 0.6rem; font-size: 0.85rem;">
+            <span>Dismiss</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

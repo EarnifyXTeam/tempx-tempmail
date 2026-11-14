@@ -6341,3 +6341,113 @@ kbd {
   transform: translateY(-1px);
   box-shadow: 0 6px 18px -3px rgba(243, 186, 47, 0.65);
 }
+
+/* ══════════════════════════════════════════════
+   Virtual SMS Maintenance & Hold UI
+   ══════════════════════════════════════════════ */
+.sms-maintenance-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  background: linear-gradient(135deg, rgba(255, 184, 0, 0.09) 0%, rgba(217, 70, 239, 0.04) 100%);
+  border: 1px solid rgba(255, 184, 0, 0.32);
+  border-radius: var(--radius-md);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px -8px rgba(255, 184, 0, 0.15);
+}
+
+.maint-icon-pulse {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 184, 0, 0.16);
+  border: 1px solid rgba(255, 184, 0, 0.45);
+  color: #ffb800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 16px rgba(255, 184, 0, 0.3);
+}
+
+.maint-content {
+  flex: 1;
+  min-width: 240px;
+}
+
+.maint-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ffb800;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.maint-content h3 {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.3rem 0;
+}
+
+.maint-content p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.maint-content strong {
+  color: #00f0ff;
+}
+
+.maint-cta-btn {
+  white-space: nowrap;
+  background: linear-gradient(135deg, #00f0ff 0%, #00ff9d 100%) !important;
+  color: #040810 !important;
+  font-weight: 700 !important;
+  padding: 0.7rem 1.3rem !important;
+  box-shadow: 0 4px 18px -2px rgba(0, 240, 255, 0.4) !important;
+  flex-shrink: 0;
+}
+
+.maint-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -2px rgba(0, 240, 255, 0.6) !important;
+}
+
+.maint-service-btn {
+  background: rgba(255, 184, 0, 0.14) !important;
+  border: 1px solid rgba(255, 184, 0, 0.38) !important;
+  color: #ffb800 !important;
+  font-weight: 700 !important;
+}
+
+.maint-service-btn:hover {
+  background: rgba(255, 184, 0, 0.25) !important;
+  color: #fff !important;
+  border-color: #ffb800 !important;
+}
+
+.maint-modal-icon {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: rgba(255, 184, 0, 0.14);
+  border: 1px solid rgba(255, 184, 0, 0.45);
+  color: #ffb800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.65rem;
+  margin: 0 auto 0.75rem;
+  box-shadow: 0 0 24px rgba(255, 184, 0, 0.28);
+}

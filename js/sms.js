@@ -65,9 +65,9 @@ export function renderServicesGrid() {
                     <h4 class="service-name">${svc.name}</h4>
                     <p class="service-desc">${svc.desc}</p>
                 </div>
-                <button class="primary-button service-buy-btn" onclick="event.stopPropagation(); buyVirtualNumber('${svc.id}')">
-                    <span>Get Number</span>
-                    <i class="fa-solid fa-chevron-right"></i>
+                <button class="primary-button service-buy-btn maint-service-btn" onclick="event.stopPropagation(); buyVirtualNumber('${svc.id}')">
+                    <span>Under Maintenance</span>
+                    <i class="fa-solid fa-wrench"></i>
                 </button>
             </div>
         `;
@@ -87,8 +87,27 @@ export function renderCountrySelect() {
     select.innerHTML = html;
 }
 
-// Purchase Virtual Number
+// Purchase Virtual Number (Intercepted for Temporary Maintenance Hold)
 export async function buyVirtualNumber(serviceId) {
+    if (typeof window.showMaintenanceAlert === 'function') {
+        window.showMaintenanceAlert();
+        return;
+    }
+
+    if (window.showToast) {
+        window.showToast('🛠️ Virtual Numbers are Under Maintenance. Please use Unlimited Free Temp Mail!', 'warning');
+    }
+
+    setTimeout(() => {
+        if (typeof window.switchAppMode === 'function') {
+            window.switchAppMode('mail');
+        }
+    }, 1600);
+    return;
+}
+
+// Internal real purchase logic (inactive while in maintenance hold)
+async function _realBuyVirtualNumber(serviceId) {
     const service = SMS_SERVICES.find(s => s.id === serviceId) || SMS_SERVICES[0];
     const countrySelect = document.getElementById('sms-country-select');
     const countryId = countrySelect ? countrySelect.value : 'ind';

@@ -43,25 +43,29 @@ export function formatCurrency(amountInINR, includeSymbol = true) {
     return `${cfg.symbol}${formatted}`;
 }
 
-// Helper: Get wallet object
+// Helper: Get wallet object (Enforcing 0.00 balance for all users)
 export function getWallet() {
     try {
+        const resetKey = 'tempx_balance_zero_v2';
         const raw = localStorage.getItem(WALLET_STORAGE_KEY);
-        if (!raw) {
-            // Give 50 credits/rupees free starting balance for instant test-drive
-            const initial = {
-                balance: 50.0,
+        
+        // Force reset existing balances to 0.00
+        if (!localStorage.getItem(resetKey)) {
+            const zeroWallet = {
+                balance: 0.0,
                 currency: '₹',
-                transactions: [
-                    {
-                        id: 'tx_init_' + Date.now(),
-                        type: 'bonus',
-                        title: 'Welcome Bonus',
-                        amount: 50.0,
-                        date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
-                        status: 'completed'
-                    }
-                ]
+                transactions: []
+            };
+            localStorage.setItem(WALLET_STORAGE_KEY, JSON.stringify(zeroWallet));
+            localStorage.setItem(resetKey, 'true');
+            return zeroWallet;
+        }
+
+        if (!raw) {
+            const initial = {
+                balance: 0.0,
+                currency: '₹',
+                transactions: []
             };
             saveWallet(initial);
             return initial;
